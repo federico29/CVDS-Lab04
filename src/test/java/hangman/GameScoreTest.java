@@ -139,7 +139,7 @@ public class GameScoreTest{
 	public void powerBonusScoreTestCorrecto(){
 		PowerBonusScore score=new PowerBonusScore();
 		int valor = score.calculateScore(2,1);
-		Assert.assertEquals(valor,17);
+		Assert.assertEquals(valor,22);
 	}
 	
 	@SuppressWarnings("deprecation")
