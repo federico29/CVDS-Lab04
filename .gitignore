@@ -5,4 +5,7 @@ target
 *.iml
 img
 .settings
-pruebas
+pruebas.PNG
+.classpath
+.project
+.gitignore
