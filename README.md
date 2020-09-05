@@ -1,45 +1,13 @@
-### Escuela Colombiana de Ingeniería
+## Escuela Colombiana de Ingeniería
 
-### Procesos de Desarrollo de Software
+### CVDS-Lab04
+
+
+### Nombres:
+- Federico Barrios Meneses
+- Ricardo Amaya Rivera
 
 ### Desarrollo Dirigido por Pruebas + DIP + DI + Contenedores Livianos
-
-
-Para este taller se va a trabajar sobre el juego del ahorcado.
-
-El sistema actual de puntuación del juego comienza en 100 puntos y va
-descontando 10 puntos cada vez que se propone una letra incorrecta.
-
-Algunos usuarios han propuesto diferentes esquemas para realizar la
-puntuación, los cuales se describen a continuación:
-
-* OriginalScore: 
-    * Es el esquema actual, se inicia con 100 puntos.
-    * No se bonifican las letras correctas.
-    * Se penaliza con 10 puntos con cada letra incorrecta.
-    * El puntaje minimo es 0.
-
-* BonusScore: 
-    * El juego inicia en 0 puntos.
-    * Se bonifica con 10 puntos cada letra correcta.
-    * Se penaliza con 5 puntos cada letra incorrecta.
-    * El puntaje mínimo es 0
-    
-* PowerBonusScore:
-    * El juego inicia en 0 puntos.
-    * La $i-ésima$ letra correcta se bonifica con $5^i$.
-    * Se penaliza con 8 puntos cada letra incorrecta.
-    * El puntaje mínimo es 0
-    * Si con las reglas anteriores sobrepasa 500 puntos, el puntaje es
-      500.
-
-Lo anterior, se traduce en el siguiente modelo, donde se aplica el
-principio de inversión de dependencias:
-
-
-![](img/model.png)
-
-
 ### Parte I
 
 1. Clone el proyecto (no lo descargue!).
@@ -47,11 +15,38 @@ principio de inversión de dependencias:
 2. A partir del código existente, implemente sólo los cascarones del
    modelo antes indicado.
 
-3. Haga la especificación de los métodos calculateScore (de las tres
-   variantes de GameScore), a partir de las especificaciones
-   generales dadas anteriormente. Recuerde tener en cuenta: @pre,
-   @pos, @param, @throws.
-
+3. Haga la especificación de los métodos calculateScore (de las tres variantes de GameScore), a partir de las especificaciones generales dadas anteriormente. Recuerde tener en cuenta: @pre, @pos, @param, @throws.
+	- OriginalScore:
+	```java
+		/**
+	     * Calculo del puntaje: puntaje entre [0,100] inicia en 100, letras correctas no bonifican e incorrectas quitan 10 puntos
+	     * @param numero de letras correctas
+	     * @param numero de letras incorrectas
+	     * @return puntaje calculado en base a los parámetros
+	     */
+		public int calculateScore(int correctCount, int incorrectCount)
+	```
+	- BonusScore:
+	```java
+		/**
+	     * Calculo del puntaje: puntaje entre [0,..) inicia en 0, letras correctas suman 10 puntos e incorrectas quitan 5 puntos
+	     * @param numero de letras correctas
+	     * @param numero de letras incorrectas
+	     * @return puntaje calculado en base a los parámetros
+	     */
+		public int calculateScore(int correctCount, int incorrectCount)
+	```
+	- PowerBonusScore:
+	```java
+		/**
+	     * Calculo del puntaje: puntaje entre [0,500] inicia en 0, letras correctas suman 5^i puntos e incorrectas quitan 8 puntos
+	     * @param numero de letras correctas
+	     * @param numero de letras incorrectas
+	     * @return puntaje calculado en base a los parámetros
+	     */
+		@Override
+		public int calculateScore(int correctCount, int incorrectCount)
+	```
 4. Haga commit de lo realizado hasta ahora. Desde la terminal:
 
 	```bash		
@@ -60,35 +55,73 @@ principio de inversión de dependencias:
 	```
 
 5. Actualice el archivo `pom.xml` e incluya las dependencias para la ultima versión de JUnit y la versión del compilador de Java a la versión 8 .
+	- Dependencia JUnit:
+   ```xml
+	   <dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13</version>
+			<scope>test</scope>
+		</dependency>
+   ```
+   - Compilador de java:
+   ```xml
+	   <properties>
+	       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	       <maven.compiler.source>1.8</maven.compiler.source>
+	       <maven.compiler.target>1.8</maven.compiler.target>
+	   </properties>
+   ```
    
 
-6. Teniendo en cuenta dichas especificaciones, en la clase donde se
-   implementarán las pruebas (GameScoreTest), en los
-   comentarios iniciales, especifique las clases de equivalencia para
-   las tres variantes de GameScore, e identifique
-   condiciones de frontera. 
+6. Teniendo en cuenta dichas especificaciones, en la clase donde se implementarán las pruebas (GameScoreTest), en los comentarios iniciales, especifique las clases de equivalencia para las tres variantes de GameScore, e identifique condiciones de frontera. 
+	- OriginalScore:
+	
+	| Número| Clase de equivalencia | Resultado|
+	| :---       |     ---     |   ---   |
+	| 1|  ```0<=score && score<=100```|Correcto|
+	| 2| ```(score%10)!=0 && score<0 && 100<score```|Incorrecto|
+	| 3| ```score==-10, score==0, score==10```|Frontera Inferior|
+	| 4| ```score==90, score==100, score>100```|Frontera Superior|
 
-7. Para cada clase de equivalencia y condición de frontera, implemente
+	- BonusScore:
+
+	| Número| Clase de equivalencia | Resultado|
+	| :---       |     ---     |   ---   |
+	| 1|  ```0<=score```|Correcto|
+	| 2| ```(score%5)!=0 && score<0```|Incorrecto|
+	| 3| ```score==-5, score==0, score==5```|Frontera Inferior|
+
+	- PowerBonusScore:
+	
+	| Número| Clase de equivalencia | Resultado|
+	| :---       |     ---     |   ---   |
+	| 1|  ```0<=score<=500```|Correcto|
+	| 2| ```score==-8, score==0, score==5```|Frontera Inferior|
+	| 3| ```score==155, score==500, score==780```|Frontera Superior|
+8. Para cada clase de equivalencia y condición de frontera, implemente
    una prueba utilizando JUnit.
+   Dirigirse a: ```src\test\java\hangman.GameScoreTest.java```
 
-8. Haga commit de lo realizado hasta ahora. Desde la terminal:
+9. Haga commit de lo realizado hasta ahora. Desde la terminal:
 
 	```bash		
 	git add .			
 	git commit -m "implementación pruebas"
 	```
-9. Realice la implementación de los 'cascarones' realizados anteriormente.
+10. Realice la implementación de los 'cascarones' realizados anteriormente.
    Asegúrese que todas las pruebas unitarias creadas en los puntos anteriores
    se ejecutan satisfactoriamente.
+   ![Pruebas](https://photos.google.com/search/_tra_/photo/AF1QipMOvIObJ6YhDOSYaAG9VXMW6brzykBVnruWqqbF)
 
-10. Al finalizar haga un nuevo commit:
+11. Al finalizar haga un nuevo commit:
 
 	```bash		
 	git add .			
 	git commit -m "implementación del modelo"
 	```
 
-11. Para sincronizar el avance en el respositorio y NO PERDER el trabajo, use
+12¿1. Para sincronizar el avance en el respositorio y NO PERDER el trabajo, use
     el comando de GIT para enviar los cambios:
 
 ```bash	
@@ -125,5 +158,3 @@ Incorpore el Contenedor Liviano Guice dentro del proyecto:
 	* Utilizar el idioma francés.
     * Utilizar el diccionario francés.
 	* etc...
-* Para lo anterior, [puede basarse en el ejemplo dado como
-  referencia](https://github.com/PDSW-ECI/LightweighContainers_DepenendecyInjectionIntro-WordProcessor).

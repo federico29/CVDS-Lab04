@@ -10,7 +10,7 @@ import hangman.model.PowerBonusScore;
 public class GameScoreTest{
 	/**
 	* Clases de equivalencia OriginalScore:
-	* 	valores correctos:  0<=score && 0<=100
+	* 	valores correctos:  0<=score && score<=100
 	*	valores incorrectos: score%10 != 0 && score<0 && 100<score
 	*	casos frontera inferior: score==-10  score==0  score==10
 	*	casos frontera superior: score==90 score==100 score>100
@@ -84,7 +84,7 @@ public class GameScoreTest{
 	* Clases de equivalencia Bonus Score:
 	* 	valores correcto:  0<=score
 	*	valores incorrectos: score%5 != 0 && score<0
-	*	casos frontera inferior: score==-5  score==0 score==5
+	*	casos frontera inferior: score==-5  score==0  score==5
 	**/
 	
 	@SuppressWarnings("deprecation")
@@ -130,8 +130,8 @@ public class GameScoreTest{
 	/**
 	* Clases de equivalencia Bonus Score:
 	* 	valores correcto:  0<=score<=500
-	*	casos frontera inferior: score==-8  score==0 score==5
-	*	casos frontera superior: score==155  score==500 score==780
+	*	casos frontera inferior: score==-8  score==0  score==5
+	*	casos frontera superior: score==155  score==500  score==780
 	**/
 	
 	@SuppressWarnings("deprecation")
