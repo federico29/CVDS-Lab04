@@ -114,7 +114,7 @@
    se ejecutan satisfactoriamente.
    
    
-   ![](pruebas.png)
+   ![](pruebas.PNG)
 
 
 
