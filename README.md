@@ -112,7 +112,11 @@
 10. Realice la implementación de los 'cascarones' realizados anteriormente.
    Asegúrese que todas las pruebas unitarias creadas en los puntos anteriores
    se ejecutan satisfactoriamente.
-   ![Pruebas](img/pruebas.png)
+   
+   
+   ![](img/pruebas.png)
+
+
 
 11. Al finalizar haga un nuevo commit:
 
